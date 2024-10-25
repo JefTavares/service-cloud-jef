@@ -18,6 +18,7 @@
     </types>
     <types>
         <members>contactUploadFromAccount</members>
+        <members>modalDuvidasGerais</members>
         <name>LightningComponentBundle</name>
     </types>
     <version>62.0</version>
