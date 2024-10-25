@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomApplication xmlns="http://soap.sforce.com/2006/04/metadata">
+    <brand>
+        <headerColor>#F3F71C</headerColor>
+        <shouldOverrideOrgTheme>false</shouldOverrideOrgTheme>
+    </brand>
+    <description>Aplicativo para testar funcionalidades</description>
+    <formFactors>Small</formFactors>
+    <formFactors>Large</formFactors>
+    <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
+    <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
+    <isNavTabPersistenceDisabled>false</isNavTabPersistenceDisabled>
+    <isOmniPinnedViewEnabled>false</isOmniPinnedViewEnabled>
+    <label>TesteApps-Jef</label>
+    <navType>Console</navType>
+    <tabs>testeApp</tabs>
+    <uiType>Lightning</uiType>
+    <utilityBar>TesteApps_Jef_UtilityBar</utilityBar>
+    <workspaceConfig>
+        <mappings>
+            <tab>testeApp</tab>
+        </mappings>
+    </workspaceConfig>
+</CustomApplication>

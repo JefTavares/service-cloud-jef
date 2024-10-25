@@ -1,0 +1,41 @@
+<template>
+  <div class="slds-p-around_medium">
+    <lightning-card
+      variant="Narrow"
+      icon-name="standard:file"
+      title="Upload Contacts"
+    >
+      <template lwc:if={isLoaded}>
+        <lightning-spinner alternative-text="Loading" size="large">
+        </lightning-spinner>
+      </template>
+
+      <template lwc:if={showFileUpload}>
+        <div class="slds-var-p-horizontal_small">
+          <lightning-file-upload
+            accept={acceptedFormats}
+            label="Attach CSV File"
+            onuploadfinished={uploadFileHandler}
+          >
+          </lightning-file-upload>
+        </div>
+      </template>
+      <template lwc:else>
+        <lightning-card>
+          <lightning-datatable
+            key-field="Email"
+            data={contactList}
+            columns={contactColumns}
+            hide-checkbox-column
+            show-row-number-column
+          >
+          </lightning-datatable>
+          <p slot="footer">
+            <lightning-button label="Create Contacts" onclick={loadContacts}>
+            </lightning-button>
+          </p>
+        </lightning-card>
+      </template>
+    </lightning-card>
+  </div>
+</template>
