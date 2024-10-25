@@ -1,3 +1,9 @@
-/**
- * Created by EX300265 on 25/10/2024.
- */
+.slds-modal__container {
+    z-index: 1050;
+}
+.slds-backdrop {
+    display: none !important;
+}
+.slds-modal__close {
+    display: none;
+}

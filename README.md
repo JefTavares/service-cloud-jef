@@ -1,4 +1,4 @@
-# **Projeto para estudos**
+# Projeto para estudos
 
 # Para esse projeto foi habilitado as conta pessoais
 No menu `Contas pessoais`
@@ -17,3 +17,4 @@ E também criou a guia personalizada `testeApp` no menu `Interface do usuário >
 
 ### Componentes relacionados
 Lwc - modalDuvidasGerais
+

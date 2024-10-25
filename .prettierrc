@@ -12,6 +12,7 @@
     {
       "files": "*.{cmp,page,component}",
       "options": { "parser": "html" }
-    }
+    },
+    "printWidth": 130
   ]
 }
