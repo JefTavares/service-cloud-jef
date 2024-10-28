@@ -30,3 +30,13 @@ A rota de estudo que estou utilizando é relacionado aos objetos/classes apex:
 4. AffinitySinDTO
 
 # Proximo passos seta as url e as named credentials
+
+# Git notes
+
+No gitbash estou fazendo assim para carregar o git na firma
+
+eval "$(ssh-agent -s)"
+
+ssh-add /c/Temp/id_ed25519
+
+git push
