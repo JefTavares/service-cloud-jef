@@ -2,8 +2,10 @@ ComponentViewController.DataWrapper dataWrapper = new ComponentViewController.Da
 
 dataWrapper.metadataName = 'Afinidades';
 dataWrapper.objectApiName = 'Account';
-dataWrapper.recordId = '';
+dataWrapper.recordId = '001HZ00000KaHk5YAF'; //conta jeferson
 
 
-ComponentViewController.getRecords(JSON.serialize(dataWrapper));
+Map<String, String> teste = ComponentViewController.getRecords(JSON.serialize(dataWrapper));
+
+System.debug('OUT--->' + teste);
 

@@ -16,8 +16,6 @@ export default class CustomCaseForm extends LightningElement {
 
   @wire(getRecord, { recordId: "$recordId", fields: [STATUS_FIELD, RTID_FIELD] })
   caseRecord({ error, data }) {
-    console.log("record:" + this.recordId);
-    console.log("record:" + RTID_FIELD);
     if (data) {
       this.value = getFieldValue(data, STATUS_FIELD);
       this.recordTypeId = getFieldValue(data, RTID_FIELD);
@@ -26,9 +24,6 @@ export default class CustomCaseForm extends LightningElement {
 
   @wire(getPicklistValues, { recordTypeId: "$recordTypeId", fieldApiName: STATUS_FIELD })
   picklistResults({ error, data }) {
-    console.log("picklist: " + data);
-    console.log("picklist: " + this.recordTypeId);
-    console.log("picklist:" + STATUS_FIELD);
     if (data) {
       console.log("picklist data >>" + data.values);
       this.options = data.values;

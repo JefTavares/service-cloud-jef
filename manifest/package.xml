@@ -1,13 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
+        <members>AffinityService</members>
+        <members>AffinitySinDTO</members>
         <members>ComponentViewController</members>
         <members>ContactUploadFromAccountController</members>
+        <members>IntegrationRest</members>
+        <members>TokenManager</members>
+        <members>UtilityClass</members>
         <name>ApexClass</name>
     </types>
     <types>
         <members>TesteAppsJef</members>
         <name>CustomApplication</name>
+    </types>
+    <types>
+        <members>API_Header.Accept_All_Types</members>
+        <members>API_Header.Accept_Text_Plain</members>
+        <members>API_Header.Accept_application_json</members>
+        <members>API_Header.Authorization_Credential_OAuthToken</members>
+        <members>API_Header.Content_Type_application_json</members>
+        <members>API_Header.Content_Type_application_x_www_form_ur</members>
+        <members>API_Header_Setting.Get_Token_Content_Type</members>
+        <members>API_Setting.Get_Token</members>
+        <members>ComponentView.Afinidades</members>
+        <name>CustomMetadata</name>
+    </types>
+    <types>
+        <members>API_Header_Setting__mdt</members>
+        <members>API_Header__mdt</members>
+        <members>API_Setting__mdt</members>
+        <members>ComponentView__mdt</members>
+        <name>CustomObject</name>
     </types>
     <types>
         <members>testeApp</members>
