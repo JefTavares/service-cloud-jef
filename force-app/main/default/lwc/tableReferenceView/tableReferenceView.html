@@ -1,0 +1,62 @@
+<!--
+ - Created by EX300265 on 18/11/2024.
+ -->
+<template>
+  <lightning-layout multiple-rows class="slds-is-relative">
+    <lightning-spinner if:true={isLoading} variant="brand" size="medium"></lightning-spinner>
+    <lightning-layout-item size="12">
+      <lightning-card>
+        <div class="headerClass slds-card__header slds-grid" style="padding: 10px">
+          <header class="slds-media slds-media_center slds-has-flexi-truncate">
+            <div class="slds-media__figure">
+              <lightning-icon icon-name={iconName} size="small"></lightning-icon>
+            </div>
+            <div class="slds-media__body">
+              <h2 class="slds-card__header-title">
+                <a href="javascript:;" class="slds-card__header-link slds-truncate">
+                  <span>{componentTitle} ({totalRows})</span>
+                </a>
+              </h2>
+            </div>
+          </header>
+        </div>
+
+        <template if:true={showTable}>
+          <lightning-datatable
+            key-field="id"
+            data-tablename="filestable"
+            data={tableData}
+            columns={columns}
+            hide-checkbox-column
+            onrowaction={handleRowAction}>
+          </lightning-datatable>
+        </template>
+      </lightning-card>
+    </lightning-layout-item>
+
+  </lightning-layout>
+
+  <!--As propriedades header, size e show-icon-button são do LWC modal-->
+  <c-modal header={labelHeader} size="medium" show-close-button="false">
+
+    <lightning-layout slot="content" multiple-rows class="slds-is-relative">
+      <lightning-spinner if:true={isLoadingModal} variant="brand" size="medium"></lightning-spinner>
+      <lightning-radio-group name="radioGroup"
+                             label="Escolha o tipo de caso que deseja criar"
+                             options={options}
+                             value={radioValue}
+                             onchange={handleChange}
+                             type="radio"></lightning-radio-group>
+    </lightning-layout>
+
+    <div slot="footer" style="text-align: center">
+      <lightning-button style="margin-right: 5px"
+                        class="fecharModal"
+                        label="Fechar"
+                        onclick={handleCloseModal}></lightning-button>
+      <lightning-button disabled={disableNext} label="Criar" variant="brand" onclick={handleClick}></lightning-button>
+    </div>
+
+  </c-modal>
+
+</template>

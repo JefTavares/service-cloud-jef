@@ -1,0 +1,16 @@
+/* :host {
+
+    --slds-c-card-color-border: purple;
+    --slds-c-card-color-border: rgb(229, 229, 229);
+    --slds-c-card-color-background: rgb(243, 243, 243);
+    --slds-c-card-header-spacing-block-start: 8px;
+    --slds-c-card-header-spacing-block-end: 12px;
+} */
+
+.headerClass {
+    border-bottom: solid 1px rgb(229, 229, 229);
+    background-color: rgb(243, 243, 243);
+    padding: 8px 12px;
+    margin: 0px;
+
+}

@@ -7,10 +7,14 @@
 public with sharing class ComponentViewController {
 
     // Retorna os dados de api
+    @AuraEnabled
     public static Map<String, String> getRecords(String dataString) {
         System.debug('1 - getRecords: ' + dataString);
         DataWrapper dataWrapper = (DataWrapper) JSON.deserialize(dataString, DataWrapper.class); //todo Incluir na classe pensando em um this.dataWrapper
         Map<String, String> mapToReturn = getDataFromAPI(dataWrapper);
+
+        List<RecordType> caseRecordTypes = getRecordsTypes();
+        mapToReturn.put('RecordTypes', JSON.serialize(caseRecordTypes));
 
         return mapToReturn;
     }
@@ -34,20 +38,24 @@ public with sharing class ComponentViewController {
         //TODO Mudar para switch case
         if (componentList.DeveloperName == 'Afinidades') {
             System.debug('getDataFromAPI - componentList.DeveloperName >>>' + componentList.DeveloperName);
-            //TODO Incluir essa linha a de baixo é para testes AffinitySinDTO.AffinitySinResponse affinity = AffinityService.searchPolicieByDocumentName(String.valueOf(sObj.get('CPF_CNPJ__c')), String.valueOf(sObj.get('Name')));
-            AffinitySinDTO.AffinitySinResponse affinity = AffinityService.searchPolicieByDocumentName('32729267808', 'JefersonT');
+            //TODO Incluir essa linha a de baixo é para testes
+            AffinitySinDTO.AffinitySinResponse affinity = AffinityService.searchPolicieByDocumentName('01185631143', 'Mayara');
+            //AffinitySinDTO.AffinitySinResponse affinity = AffinityService.searchPolicieByDocumentName(String.valueOf(sObj.get('CPF_CNPJ__c')), String.valueOf(sObj.get('Name')));
             System.debug('getDataFromAPI - affinity >>>' + affinity);
-            //mapToReturn.put('Affinity', JSON.serialize(affinity));
+            mapToReturn.put('Affinity', JSON.serialize(affinity));
         }
 
         return mapToReturn;
     }
 
     public static ComponentView__mdt getComponentMetadata(String metadataName) {
+        System.debug('5 - getComponentMetadata: ' + metadataName);
         return [SELECT Id, DeveloperName, MasterLabel, ColumnHeader__c, FieldAndType__c, ApiFieldsTypesAndCaseFields__c, ApiFieldsTypesAndOppFields__c FROM ComponentView__mdt WHERE DeveloperName = :metadataName];
     }
 
+    //Retorna um SObject dinâmico a partir de um recordId
     public static SObject getSObject(DataWrapper dataWrapper) {
+        System.debug('4 - getSObject: ' + dataWrapper);
         String fieldsToSOQL = mapFieldsToSOQL(dataWrapper.objectApiName);
         String soql = 'SELECT ' + fieldsToSOQL + ' FROM ' + dataWrapper.objectApiName + ' WHERE Id =\'' + dataWrapper.recordId + '\'';
         System.debug('getSObject - soql >>>>' + soql);
@@ -69,6 +77,7 @@ public with sharing class ComponentViewController {
     //Com base no metadado ComponentView. Cria um objeto que define toda a estrutura da integração
     //Label do campo, nome do campo na api, tipo do campo Exemplo: ColumnWrapper:[fieldName=status, label=Status, type=text]
     public static TableResponseWrapper getTableResponse(ComponentView__mdt metadata) {
+        System.debug('3 - getTableResponse: ' + metadata);
         List<String> columnHeaderList = new List<String>();
         List<String> columnFieldTypeList = new List<String>();
         List<ColumnWrapper> columnsList = new List<ColumnWrapper>();
@@ -83,9 +92,9 @@ public with sharing class ComponentViewController {
         }
 
         for (Integer i = 0; i < columnHeaderList.size(); i++) {
-            System.debug(columnHeaderList[i].trim());
-            System.debug(columnFieldTypeList[i].substringBefore(':').trim());
-            System.debug(columnFieldTypeList[i].substringAfter(':').trim());
+            System.debug(columnHeaderList[i].trim()); //Label da Coluna na grid
+            System.debug(columnFieldTypeList[i].substringBefore(':').trim()); //Nome do campo na API
+            System.debug(columnFieldTypeList[i].substringAfter(':').trim()); // Tupo de dado
             ColumnWrapper tableColumn = new ColumnWrapper(columnHeaderList[i].trim(), columnFieldTypeList[i].substringBefore(':').trim(), columnFieldTypeList[i].substringAfter(':').trim());
             columnsList.add(tableColumn);
         }
@@ -95,6 +104,16 @@ public with sharing class ComponentViewController {
         System.debug('getTableResponse >>>' + tableToReturn);
         return tableToReturn;
 
+    }
+
+    public static List<RecordType> getRecordsTypes() {
+        Set<String> idsRecordType = new Set<String>();
+        for (RecordTypeInfo tipoDeRegistro : Case.SObjectType.getDescribe().getRecordTypeInfos()) {
+            if (tipoDeRegistro.isAvailable() && !tipoDeRegistro.isMaster() && tipoDeRegistro.isActive() && tipoDeRegistro.getName() != 'Email To Case') {
+                idsRecordType.add(tipoDeRegistro.getRecordTypeId());
+            }
+        }
+        return [SELECT Id, Name, DeveloperName, Description FROM RecordType WHERE Id IN :idsRecordType];
     }
 
     //Dados recebidos pela funcionalidade geral

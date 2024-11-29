@@ -20,7 +20,9 @@ public class TokenManager {
         String token;
         try {
             System.debug('Cache.Org.get(cacheName)>' + Cache.Org.get(cacheName));
+
             if (Cache.Org.get(cacheName) != null) {
+                //Caso token no cache seja null ele busca um novo token no
                 token = (String) Cache.Org.get(cacheName);
                 return token;
             }

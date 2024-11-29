@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ApiFieldsTypesAndCaseFields__c</fullName>
+    <description>Campos da Api, tipo do campo e o campo no objeto caso. Exemplo:
+numeroApolice:text:Apolice__c
+Aonde numeroApolice é o campo na API
+text é o tipo de dado
+Apolice__c é o nome do API do objeto Case</description>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>ApiFieldsTypesAndCaseFields</label>
+    <length>131072</length>
+    <type>LongTextArea</type>
+    <visibleLines>5</visibleLines>
+</CustomField>

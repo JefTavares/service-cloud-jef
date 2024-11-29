@@ -11,6 +11,11 @@
         <name>ApexClass</name>
     </types>
     <types>
+        <members>IMG20241030WA0005</members>
+        <name>ContentAsset</name>
+    </types>
+    <types>
+        <members>Service_Cloud_Jef</members>
         <members>TesteAppsJef</members>
         <name>CustomApplication</name>
     </types>
@@ -21,7 +26,10 @@
         <members>API_Header.Authorization_Credential_OAuthToken</members>
         <members>API_Header.Content_Type_application_json</members>
         <members>API_Header.Content_Type_application_x_www_form_ur</members>
+        <members>API_Header_Setting.Affinity_Sin_Accept</members>
+        <members>API_Header_Setting.Affinity_Sin_Content_Type</members>
         <members>API_Header_Setting.Get_Token_Content_Type</members>
+        <members>API_Setting.Affinity_Sin</members>
         <members>API_Setting.Get_Token</members>
         <members>ComponentView.Afinidades</members>
         <name>CustomMetadata</name>
@@ -30,6 +38,8 @@
         <members>API_Header_Setting__mdt</members>
         <members>API_Header__mdt</members>
         <members>API_Setting__mdt</members>
+        <members>Account</members>
+        <members>Case</members>
         <members>ComponentView__mdt</members>
         <name>CustomObject</name>
     </types>
@@ -44,7 +54,10 @@
     <types>
         <members>contactUploadFromAccount</members>
         <members>customCaseForm</members>
+        <members>modal</members>
         <members>modalDuvidasGerais</members>
+        <members>tableReferenceView</members>
+        <members>utils</members>
         <name>LightningComponentBundle</name>
     </types>
     <version>62.0</version>

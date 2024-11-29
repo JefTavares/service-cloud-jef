@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>62.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>Componente de Tabelas</masterLabel>
+    <description>Componente dinâmico de tabelas.</description>
+    <targets>
+        <target>lightning__RecordPage</target>
+        <target>lightning__AppPage</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__AppPage, lightning__RecordPage">
+            <property name="metadataName" type="String" label="Nome do Registro do Metadado ComponentView"/>
+            <property name="componentTitle" type="String" label="Título do Componente"/>
+            <property name="iconName" type="String" label="Tipo e Nome do Ícone"/>
+            <property name="hasCreateCaseButton" type="Boolean" label="Botão de criar caso?"/>
+            <property name="hasCreateOppButton" type="Boolean" label="Botão de criar oportunidade"/>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

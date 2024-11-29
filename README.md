@@ -14,6 +14,16 @@ E também criou a guia personalizada `testeApp` no menu `Interface do usuário >
 
 # Features desenvolvidas aqui.
 
+## Aplicativos personalizados
+
+Lá no menu `Gerenciador de aplicativos do Lightning Experience`
+
+Gerenciador de aplicativos do Lightning Experience.
+
+`Service Cloud Jef`
+
+> O `contentassets >> IMG20241030WA0005.asset` no projeto é o ícone do aplicativo
+
 ## Dúvidas Gerais.
 
 ### Componentes relacionados
@@ -132,6 +142,15 @@ Menus adicionados:
 Acesso da entidade de segurança da credencial externa.
 Adicionado a `SalesforceBrokerAuth - Admin`
 
+## Fluxo da API e Metadados.
+
+TODO
+
+### ComponentView
+
+Responsável por definir os campos a ser exibidos nas tabelas do LWC `tableReferenceView` - Componente de Tabelas.
+Um component de tabelas dinâmicos.
+
 # Git notes
 
 No gitbash estou fazendo assim para carregar o git na firma
@@ -139,5 +158,13 @@ No gitbash estou fazendo assim para carregar o git na firma
 eval "$(ssh-agent -s)"
 
 ssh-add /c/Temp/id_ed25519
+
+Trocar os usuários:
+De:
+git config --global user.email=jeferson.tavare@caixaresidencial.com.br
+git config --global user.name=ex300265
+Para:
+git config --global user.email=jefersontavaressilva@gmail.com
+git config --global user.name "Jeferson Tavares da Silva"
 
 git push

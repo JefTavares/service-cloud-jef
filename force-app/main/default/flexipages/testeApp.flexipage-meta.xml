@@ -3,8 +3,25 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                <componentName>modalDuvidasGerais</componentName>
-                <identifier>c_modalDuvidasGerais</identifier>
+                <componentInstanceProperties>
+                    <name>componentTitle</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>hasCreateCaseButton</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>hasCreateOppButton</name>
+                    <value>false</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>iconName</name>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>metadataName</name>
+                </componentInstanceProperties>
+                <componentName>tableReferenceView</componentName>
+                <identifier>c_tableReferenceView</identifier>
             </componentInstance>
         </itemInstances>
         <name>main</name>

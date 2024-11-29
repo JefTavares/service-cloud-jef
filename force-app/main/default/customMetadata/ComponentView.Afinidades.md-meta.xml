@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Afinidades</label>
+    <protected>false</protected>
+    <values>
+        <field>ApiFieldsTypesAndCaseFields__c</field>
+        <value xsi:type="xsd:string">tipoCML:text:Produto_Api__c, numeroSegurado:text:Numero_Segurado__c, vigInicial:date:Vigencia_Inicio__c, vigFinal:date:Vigencia_Fim__c, numeroApolice:text:Apolice__c, certificado:text:Certificado__c, valorPercentualFranquia:number:Franquia__c, status:text:Status__c, dtCancelamento:date:Dt_Canc__c, matriculaSegurado:number:Matricula_Bilhete__c, descricaoPlano:text:Plano__c, nomeEstipulante:text:Estipulante__c, nomeCobertura:text:Cobertura_Habitacional__c, uf:text:UF__c,  descricaoPlano:text:Produto__c, premio:number:Premio_Total_Habitacional__c</value>
+    </values>
+    <values>
+        <field>ApiFieldsTypesAndOppFields__c</field>
+        <value xsi:type="xsd:string">tipoCML:text:Produto_Api__c, numeroSegurado:text:Numero_Segurado__c, vigInicial:date:Vigencia_Inicio__c, vigFinal:date:Vigencia_Fim__c, numeroApolice:text:Apolice__c, certificado:text:Certificado__c, valorPercentualFranquia:number:Franquia__c, status:text:Status__c, dtCancelamento:date:Dt_Canc__c, matriculaSegurado:number:Matricula_Bilhete__c, descricaoPlano:text:Plano__c, nomeEstipulante:text:Estipulante__c</value>
+    </values>
+    <values>
+        <field>ColumnHeader__c</field>
+        <value xsi:type="xsd:string">Produto, Data Inicio Vigência, Data Fim Vigência, Data Cancel, Status, Descrição da Categoria, Certificado, Bilhete, Apólice Específica, Dt. Emissão Apólice, N. Endosso, Cód, Corretor</value>
+    </values>
+    <values>
+        <field>FieldAndType__c</field>
+        <value xsi:type="xsd:string">tipoCML:text, vigInicial:date-local, vigFinal:date-local, dtCancelamento:date-local, status:text, descricaoPlano:text, certificado:text, matriculaSegurado:text, numeroApolice:text, dataInicialSegurado:date-local, endosso:text, codCorretor:text, nomeCorretor:text</value>
+    </values>
+</CustomMetadata>

@@ -10,6 +10,7 @@ public class AffinitySinDTO {
         @AuraEnabled public PolicieAffinity return_x;
     }
 
+    //Também temos um construtor que recebe os parametros das request
     public class AffinitySinRequest {
         @AuraEnabled public String documentoCPFCNPJ;
         @AuraEnabled public String nomeSegurado;
@@ -85,18 +86,18 @@ public class AffinitySinDTO {
     }
 
     public static AffinitySinDTO.AffinitySinResponse parse(String jsonResponse) {
-        AffinitySinDTO.AffinitySinResponse affiniitySinResponse = (AffinitySinDTO.AffinitySinResponse) JSON.deserialize(jsonResponse.replace('return', 'return_x'), AffinitySinDTO.AffinitySinResponse.class);
+        AffinitySinDTO.AffinitySinResponse affinitySinResponse = (AffinitySinDTO.AffinitySinResponse) JSON.deserialize(jsonResponse.replace('return', 'return_x'), AffinitySinDTO.AffinitySinResponse.class);
 
         Map<String, String> apiValuesXPicklistValues = new Map<String, String>{
                 'CAIXA SEGURO HABITACIONAL MAIS' => 'Habitacional Mais',
                 'CAIXA SEGURO HABITACIONAL ESPECIAL' => 'Habitacional Especial',
                 'CAIXA SEGURO HABITACIONAL' => 'Habitacional'
         };
-        for (Policie policy : affiniitySinResponse.return_x.apolice) {
+        for (Policie policy : affinitySinResponse.return_x.apolice) {
             policy.dados.descricaoPlano = UtilityClass.replaceValues(policy.dados.descricaoPlano, apiValuesXPicklistValues);
         }
 
 
-        return affiniitySinResponse;
+        return affinitySinResponse;
     }
 }

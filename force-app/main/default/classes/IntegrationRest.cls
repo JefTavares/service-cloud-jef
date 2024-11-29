@@ -7,31 +7,40 @@ public with sharing class IntegrationRest {
     public class IntegrationRestException extends Exception {
     }
 
-    //Construtor padrão da classe
+    //Método passando apenas o serviceName e urlParams.
+    //Estou utilizando para pegar o token
     public static HttpResponse sendRequest(String serviceName, String urlParams) {
         //return sendRequest(serviceName, urlParams, null, null);
-        HttpResponse responseTST = sendRequest(serviceName, urlParams, null, null);
+        //HttpResponse responseTST = sendRequest(serviceName, urlParams, null, null);
+        //return responseTST;
 
-        System.debug('IntegrationRest>sendRequest:' + serviceName + urlParams);
+        return sendRequest(serviceName, urlParams, null, null);
+    }
 
-        return responseTST;
-
-        //TODO linha final - return sendRequest(serviceName, urlParams, null, null);
+    //Send request com serviceName mapHeader e json body, não recebe um urlParams
+    //no AffinityService estamos usando esse, como exemplo
+    public static HttpResponse sendRequest(String serviceName, Map<String, String> mapHeader, Object body) {
+        System.debug('sendRequest com serviceName' + serviceName);
+        System.debug('sendRequest com mapHeader' + mapHeader);
+        System.debug('sendRequest com body' + body);
+        return sendRequest(serviceName, '', mapHeader, body);
     }
 
     public static HttpResponse sendRequest(String serviceName, String urlParams, Map<String, String> mapHeader, Object body) {
         HttpRequest request = generateRequest(serviceName, urlParams, mapHeader, body);
         HttpResponse response = new HttpResponse();
 
+        System.debug('request gerada>>>' + request);
         response = new Http().send(request);
 
         System.debug(response.getBody());
         System.debug(response.getStatusCode());
-        
+
         return response;
     }
 
     public static HttpRequest generateRequest(String serviceName, String urlParams, Map<String, String> mapHeader, Object body) {
+        System.debug('generateRequest >>>' + serviceName);
         //Busca parametrização da API .getInstance já me retorna o objeto passando o developerName
         API_Setting__mdt apiSetting = API_Setting__mdt.getInstance(serviceName);
         System.debug('requestParam - apiSetting>>>' + apiSetting);
@@ -80,6 +89,8 @@ public with sharing class IntegrationRest {
     }
 
     private static void validateRequestParams(API_Setting__mdt apiSetting, String serviceName) {
+        System.debug('validateRequestParams > serviceName: ' + serviceName);
+        System.debug('validateRequestParams > apiSetting: ' + apiSetting);
         if (String.isBlank(serviceName)) {
             throw new IntegrationRestException('O parâmetro de serviço não pode ser vazio ou nulo');
         }
