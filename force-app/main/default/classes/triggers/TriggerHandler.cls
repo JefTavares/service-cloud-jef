@@ -1,5 +1,5 @@
 /**
- * @description       :
+ * @description       : Interface para os triggers, toda os métodos das triggers devem ser implementadas nesta interface
  * @author            : Jeferson Tavares
  * @group             :
  * @last modified on  : 12-13-2024

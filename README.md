@@ -59,7 +59,7 @@ Rótulo: SalesforceBrokerAuth
 Nome: SalesforceBrokerAuth
 Protocolo de autenticação: personalizado.
 
-##### 1. entidade de segurança
+##### 1. Entidade de segurança
 
 Clicar em criar e definir os valores:
 Nome do parâmetro: Admin
@@ -151,6 +151,13 @@ TODO
 Responsável por definir os campos a ser exibidos nas tabelas do LWC `tableReferenceView` - Componente de Tabelas.
 Um component de tabelas dinâmicos.
 
+### Triggers
+
+Triggers no Salesforce
+
+[Account Trigger](Docs/account_trigger.md) - Fluxo de implementação
+da [AccountTrigger.trigger](force-app/main/default/triggers/AccountTrigger.trigger)
+
 # Git notes
 
 No gitbash estou fazendo assim para carregar o git na firma
@@ -162,9 +169,16 @@ ssh-add /c/Temp/id_ed25519
 Trocar os usuários:
 De:
 git config --global user.email=jeferson.tavare@caixaresidencial.com.br
-git config --global user.name=ex300265
+git config --global user.name "ex300265"
 Para:
 git config --global user.email=jefersontavaressilva@gmail.com
 git config --global user.name "Jeferson Tavares da Silva"
 
+git commit -m "msg"
+
 git push
+
+Voltar as configs
+abrir o powershell 7
+git config --global user.email=jeferson.tavare@caixaresidencial.com.br
+git config --global user.name=ex300265

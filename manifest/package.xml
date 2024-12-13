@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
+        <members>AccountTriggerHandler</members>
+        <members>AccountTriggerHelper</members>
         <members>AffinityService</members>
         <members>AffinitySinDTO</members>
         <members>ComponentViewController</members>
         <members>ContactUploadFromAccountController</members>
         <members>IntegrationRest</members>
         <members>TokenManager</members>
+        <members>TriggerHandler</members>
         <members>UtilityClass</members>
         <name>ApexClass</name>
+    </types>
+    <types>
+        <members>AccountTrigger</members>
+        <name>ApexTrigger</name>
     </types>
     <types>
         <members>IMG20241030WA0005</members>
