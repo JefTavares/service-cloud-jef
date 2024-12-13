@@ -45,7 +45,7 @@
                              label="Escolha o tipo de caso que deseja criar"
                              options={options}
                              value={radioValue}
-                             onchange={handleChange}
+                             onchange={modalHandleChange}
                              type="radio"></lightning-radio-group>
     </lightning-layout>
 
@@ -54,7 +54,8 @@
                         class="fecharModal"
                         label="Fechar"
                         onclick={handleCloseModal}></lightning-button>
-      <lightning-button disabled={disableNext} label="Criar" variant="brand" onclick={handleClick}></lightning-button>
+      <lightning-button disabled={disableNext} label="Criar" variant="brand"
+                        onclick={criarHandleClick}></lightning-button>
     </div>
 
   </c-modal>

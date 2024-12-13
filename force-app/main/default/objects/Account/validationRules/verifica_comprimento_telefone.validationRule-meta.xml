@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>verifica_comprimento_telefone</fullName>
+    <active>true</active>
+    <description>verifica o comprimento no campo&quot; ddd+telefone&quot;, para apenas número e com tamanho =11.
+Se esta em branco = falso
+Se Não é númerico os valores OR o Tamanho é diferente de 11 = falso  and tamanho diferente de 10 = FALSO</description>
+    <errorConditionFormula>IF( ISBLANK( DDD_Telefone__c) , false, 
+			OR(NOT(ISNUMBER(DDD_Telefone__c)),AND(LEN(DDD_Telefone__c)&lt;&gt;11,LEN(DDD_Telefone__c)&lt;&gt;10) ))</errorConditionFormula>
+    <errorDisplayField>DDD_Telefone__c</errorDisplayField>
+    <errorMessage>O campo telefone precisa ter 11 números</errorMessage>
+</ValidationRule>

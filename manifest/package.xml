@@ -48,6 +48,7 @@
         <members>Account</members>
         <members>Case</members>
         <members>ComponentView__mdt</members>
+        <members>PersonAccount</members>
         <name>CustomObject</name>
     </types>
     <types>
@@ -55,6 +56,7 @@
         <name>CustomTab</name>
     </types>
     <types>
+        <members>Conta_Pessoa_Fisica</members>
         <members>testeApp</members>
         <name>FlexiPage</name>
     </types>

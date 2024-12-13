@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Valida_CPF_CNPJ</fullName>
+    <active>true</active>
+    <description>Valida se o número digita é um cpf valido de acordo com o calculo de cpfs validos.</description>
+    <errorConditionFormula>IF(LEN(CPF_CNPJ__c )=14,OR(AND(MOD((
+(VALUE(MID(CPF_CNPJ__c ,1,1))*6)+
+(VALUE(MID(CPF_CNPJ__c ,2,1))*5)+
+(VALUE(MID(CPF_CNPJ__c ,3,1))*4)+
+(VALUE(MID(CPF_CNPJ__c ,4,1))*3)+
+(VALUE(MID(CPF_CNPJ__c ,5,1))*2)+
+(VALUE(MID(CPF_CNPJ__c ,6,1))*9)+
+(VALUE(MID(CPF_CNPJ__c ,7,1))*8)+
+(VALUE(MID(CPF_CNPJ__c ,8,1))*7)+
+(VALUE(MID(CPF_CNPJ__c ,9,1))*6)+
+(VALUE(MID(CPF_CNPJ__c ,10,1))*5)+
+(VALUE(MID(CPF_CNPJ__c ,11,1))*4)+
+(VALUE(MID(CPF_CNPJ__c ,12,1))*3)+
+(VALUE(MID(CPF_CNPJ__c ,13,1))*2))
+,11)&lt;=1
+,VALUE(MID(CPF_CNPJ__c ,14,1))!=0)
+,AND(MOD((
+(VALUE(MID(CPF_CNPJ__c ,1,1))*6)+
+(VALUE(MID(CPF_CNPJ__c ,2,1))*5)+
+(VALUE(MID(CPF_CNPJ__c ,3,1))*4)+
+(VALUE(MID(CPF_CNPJ__c ,4,1))*3)+
+(VALUE(MID(CPF_CNPJ__c ,5,1))*2)+
+(VALUE(MID(CPF_CNPJ__c ,6,1))*9)+
+(VALUE(MID(CPF_CNPJ__c ,7,1))*8)+
+(VALUE(MID(CPF_CNPJ__c ,8,1))*7)+
+(VALUE(MID(CPF_CNPJ__c ,9,1))*6)+
+(VALUE(MID(CPF_CNPJ__c ,10,1))*5)+
+(VALUE(MID(CPF_CNPJ__c ,11,1))*4)+
+(VALUE(MID(CPF_CNPJ__c ,12,1))*3)+
+(VALUE(MID(CPF_CNPJ__c ,13,1))*2))
+,11)&gt;1
+,(11-MOD((
+(VALUE(MID(CPF_CNPJ__c ,1,1))*6)+
+(VALUE(MID(CPF_CNPJ__c ,2,1))*5)+
+(VALUE(MID(CPF_CNPJ__c ,3,1))*4)+
+(VALUE(MID(CPF_CNPJ__c ,4,1))*3)+
+(VALUE(MID(CPF_CNPJ__c ,5,1))*2)+
+(VALUE(MID(CPF_CNPJ__c ,6,1))*9)+
+(VALUE(MID(CPF_CNPJ__c ,7,1))*8)+
+(VALUE(MID(CPF_CNPJ__c ,8,1))*7)+
+(VALUE(MID(CPF_CNPJ__c ,9,1))*6)+
+(VALUE(MID(CPF_CNPJ__c ,10,1))*5)+
+(VALUE(MID(CPF_CNPJ__c ,11,1))*4)+
+(VALUE(MID(CPF_CNPJ__c ,12,1))*3)+
+(VALUE(MID(CPF_CNPJ__c ,13,1))*2)),11)) !=VALUE(MID(CPF_CNPJ__c ,14,1)))),
+NOT(OR(
+LEN(CPF_CNPJ__c)=0,AND(MOD(MOD(11-MOD(VALUE(MID(CPF_CNPJ__c ,1,1))*10+
+VALUE(MID(CPF_CNPJ__c ,2,1))*9+
+VALUE(MID(CPF_CNPJ__c ,3,1))*8+
+VALUE(MID(CPF_CNPJ__c ,5,1))*7+
+VALUE(MID(CPF_CNPJ__c ,6,1))*6+
+VALUE(MID(CPF_CNPJ__c ,7,1))*5+
+VALUE(MID(CPF_CNPJ__c ,9,1))*4+
+VALUE(MID(CPF_CNPJ__c ,10,1))*3+
+VALUE(MID(CPF_CNPJ__c ,11,1))*2,11),11),10)=
+VALUE(MID(CPF_CNPJ__c ,13,1)),MOD(MOD(11-MOD(
+VALUE(MID(CPF_CNPJ__c ,1,1))*11+
+VALUE(MID(CPF_CNPJ__c ,2,1))*10+
+VALUE(MID(CPF_CNPJ__c ,3,1))*9+
+VALUE(MID(CPF_CNPJ__c ,5,1))*8+
+VALUE(MID(CPF_CNPJ__c ,6,1))*7+
+VALUE(MID(CPF_CNPJ__c ,7,1))*6+
+VALUE(MID(CPF_CNPJ__c ,9,1))*5+
+VALUE(MID(CPF_CNPJ__c ,10,1))*4+
+VALUE(MID(CPF_CNPJ__c ,11,1))*3+
+VALUE(MID(CPF_CNPJ__c ,13,1))*2,11),11),10)=
+VALUE(MID(CPF_CNPJ__c ,14,1))))) &amp;&amp; NOT(OR(LEN(CPF_CNPJ__c )=0,AND(MOD(MOD(11-MOD(
+VALUE(MID(CPF_CNPJ__c ,1,1))*10+
+VALUE(MID(CPF_CNPJ__c ,2,1))*9+
+VALUE(MID(CPF_CNPJ__c ,3,1))*8+
+VALUE(MID(CPF_CNPJ__c ,4,1))*7+
+VALUE(MID(CPF_CNPJ__c ,5,1))*6+
+VALUE(MID(CPF_CNPJ__c ,6,1))*5+
+VALUE(MID(CPF_CNPJ__c ,7,1))*4+
+VALUE(MID(CPF_CNPJ__c ,8,1))*3+
+VALUE(MID(CPF_CNPJ__c ,9,1))*2,11),11),10)=
+VALUE(MID(CPF_CNPJ__c ,10,1)),MOD(MOD(11-MOD(
+VALUE(MID(CPF_CNPJ__c ,1,1))*11+
+VALUE(MID(CPF_CNPJ__c ,2,1))*10+
+VALUE(MID(CPF_CNPJ__c ,3,1))*9+
+VALUE(MID(CPF_CNPJ__c ,4,1))*8+
+VALUE(MID(CPF_CNPJ__c ,5,1))*7+
+VALUE(MID(CPF_CNPJ__c ,6,1))*6+
+VALUE(MID(CPF_CNPJ__c ,7,1))*5+
+VALUE(MID(CPF_CNPJ__c ,8,1))*4+
+VALUE(MID(CPF_CNPJ__c ,9,1))*3+
+VALUE(MID(CPF_CNPJ__c ,10,1))*2,11),11),10)=
+VALUE(MID(CPF_CNPJ__c ,11,1))))))</errorConditionFormula>
+    <errorDisplayField>CPF_CNPJ__c</errorDisplayField>
+    <errorMessage>CPF ou CNPJ inválido</errorMessage>
+</ValidationRule>

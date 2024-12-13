@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Data_de_Nascimento_Maior_Hoje</fullName>
+    <active>true</active>
+    <description>Só valida a data atribuída ao campo</description>
+    <errorConditionFormula>PersonBirthdate &gt;= TODAY()</errorConditionFormula>
+    <errorDisplayField>PersonBirthdate</errorDisplayField>
+    <errorMessage>A data de nascimento tem que ser menor ou igual a data de hoje</errorMessage>
+</ValidationRule>

@@ -6,6 +6,8 @@ import { api, LightningElement, wire } from "lwc";
 import { CurrentPageReference } from "lightning/navigation";
 import utils from "c/utils";
 import getRecords from "@salesforce/apex/ComponentViewController.getRecords";
+import createRecord from "@salesforce/apex/ComponentViewController.createRecord";
+
 
 export default class TableReferenceView extends LightningElement {
   @api recordId;
@@ -48,6 +50,7 @@ export default class TableReferenceView extends LightningElement {
   @wire(CurrentPageReference)
   getStateParameters(currentPageReference) {
     //Pega a página atual e atribui os valores dos campos recordId
+    console.log("getStateParameters >>>", currentPageReference);
     if (currentPageReference) {
       this.recordId = utils.isEmptyString(currentPageReference.state.recordId) ? currentPageReference.attributes.recordId : currentPageReference.state.recordId;
       this.objectApiName = currentPageReference.attributes.objectApiName;
@@ -105,22 +108,89 @@ export default class TableReferenceView extends LightningElement {
       let i = 0;
 
       //TODO Mudar para um swtich case e métodos separados
-      if (this.metadataName === "Massificados") {
-        //TODO lista dos massificados
-      } else if (this.metadataName === "Afinidades") {
-        auxTable = responseAPI.return_x.apolice.map(item => {
-          console.log("typeof >>>", typeof item);
-          console.log("Afinidades item >>>", item);
-          item.dados.tipoCML = "Habitacional";
-          item.dados.status = this.checkData(item.dados.vigFinal, item.dados.status);
-          let aux = this.setupObject(item);
-          return {
-            id: i++, ...item, ...aux
-          };
-        });
-      }
-      //todo criar dos outros métodos e grids
 
+      switch (this.metadataName) {
+        case "Massificados":
+          console.log("É massificados");
+          auxTable = responseAPI.return_x.negocios.map(item => {
+            console.log("typeof >>>", typeof item);
+            let aux = this.setupObject(item);
+            console.log("item Massificados>>>", item);
+            item.stspol = this.checkData(item.fimVigencia, item.stspol);
+            return {
+              id: i++, ...item, ...aux
+            };
+          });
+          break;
+        case "Afinidades":
+          console.log("É Afinidades - Habitacional");
+          auxTable = responseAPI.return_x.apolice.map(item => {
+            console.log("typeof >>>", typeof item);
+            console.log("Afinidades item >>>", item);
+            item.dados.tipoCML = "Habitacional";
+            item.dados.status = this.checkData(item.dados.vigFinal, item.dados.status);
+            let aux = this.setupObject(item);
+            //todo Entender esse return
+            return {
+              id: i++, ...item, ...aux
+            };
+          });
+          break;
+        case "Massificados_Propostas":
+          console.log("É Massificados_Propostas");
+          auxTable = responseAPI.return_x.map(item => {
+            console.log("typeof >>>", typeof item);
+            console.log("item Massificados_Propostas>>>", item);
+            let aux = this.setupObject(item);
+            item.statusNegocio = this.checkData(item.dtFimVigen, item.statusNegocio);
+            return {
+              id: i++, ...item, ...aux
+            };
+          });
+          break;
+        case "Sinistros":
+          console.log("É Sinistro");
+          let objAux;
+          responseAPI.return_x.sinistro.processos.forEach(item => {
+            let aux = {};
+            for (let key in item) {
+              item[key] = item[key] == null ? "" : item[key];
+              aux = Object.assign(aux, { [key + "Processos"]: item[key] });
+            }
+            console.log("aux >>>", JSON.parse(JSON.stringify(aux)));
+            if (utils.isEmptyString(objAux)) {
+              objAux = aux;
+            }
+            objAux = Object.assign(objAux, aux);
+            console.log("obj >>>", JSON.parse(JSON.stringify(objAux)));
+          });
+          auxTable.push({ id: i++, ...Object.assign(objAux, responseAPI.return_x.sinistro) });
+          console.log("auxTable >>>", JSON.parse(JSON.stringify(auxTable)));
+          break;
+        case "Restricoes":
+          console.log("É Restrições");
+          auxTable = responseAPI.return_x.listaRestricoes.map(item => {
+            console.log("typeof >>>", typeof item);
+            let aux = this.setupObject(item);
+            let iconName = item.cdSitucRestr === "LIB" ? "utility:check" : "utility:warning";
+            item.cdSitucRestr = "";
+            this.columns = this.columns.map(element => {
+              if (!element.fieldName.includes("cdSitucRestr")) return { ...element };
+              console.log("element >>>", element);
+              return {
+                ...element,
+                cellAttributes: { iconName: iconName, iconPosition: "right" }
+              };
+            });
+            console.log("this.columns >>>", JSON.parse(JSON.stringify(this.columns)));
+            return {
+              id: i++, ...item, ...aux
+            };
+          });
+          break;
+        default:
+          console.warn("metadataName inválido." + this.metadataName);
+      }
 
       this.tableData = JSON.parse(JSON.stringify(auxTable));
       this.totalRows = this.tableData.length;
@@ -137,7 +207,7 @@ export default class TableReferenceView extends LightningElement {
   }
 
 
-  //todo handleRowAction
+  // Evento dos botões da grid
   handleRowAction(event) {
     this.isLoadingModal = true;
     console.log("handleRowAction:", event);
@@ -158,13 +228,18 @@ export default class TableReferenceView extends LightningElement {
     }
     if (actionName === "createOpp") {
       this.objectApiName = "Opportunity";
-      //todo mudar a criação da variavel row para ka
+      //todo mudar a criação da variável row para ka
       this.createRecord(row, "");
     }
 
     this.isLoadingModal = false;
 
+  }
 
+  //handleChange(event) {
+  modalHandleChange(event) {
+    this.radioValue = event.detail.value;
+    this.radioLabel = this.options.find(item => item.value.includes(this.radioValue)).label;
   }
 
   get showTable() {
@@ -209,9 +284,56 @@ export default class TableReferenceView extends LightningElement {
     this.modal.close();
   }
 
-  handleClick() {
+  //handleClick() {
+  criarHandleClick() {
     this.isLoadingModal = true;
     this.createRecord(this.selectedRow, this.radioValue, this.radioLabel);
+  }
+
+  createRecord(row, recordTypeIdSelected, recordTypeNameSelected) {
+    this.isLoading = true;
+    let objFields = [];
+    for (let key in row) {
+      row[key] = row[key] === null ? "" : row[key];
+      let auxList = [];
+      if (typeof row[key] === "object") {
+        for (let i in row[key]) {
+          row[key][i] = row[key][i] === null ? "" : row[key][i];
+          auxList = [...auxList, { apiName: i, value: row[key][i] }];
+        }
+      }
+      objFields = typeof row[key] === "object" ? [...objFields, {
+        apiName: key,
+        listValues: auxList
+      }] : [...objFields, { apiName: key, value: row[key] }];
+      // objFields = [...objFields, {apiName: key, value: row[key]}]
+    }
+    console.log("objFields >>>", JSON.parse(JSON.stringify(objFields)));
+    let objWrapper = {
+      fields: JSON.parse(JSON.stringify(objFields)),
+      metadataName: this.metadataName,
+      recordTypeId: recordTypeIdSelected,
+      recordTypeName: recordTypeNameSelected,
+      recordId: this.recordId,
+      objectApiName: this.objectApiName
+    };
+    console.log("objWrapper >>>", JSON.parse(JSON.stringify(objWrapper)));
+
+    createRecord({ objString: JSON.stringify(objWrapper) })
+      .then(result => {
+        console.log("result >>>", result.SObject);
+        const sObj = JSON.parse(result.SObject);
+        console.log("sObj >>>", sObj);
+        console.log("sObj >>>", sObj.Id);
+        this.isLoading = false;
+        this.isLoadingModal = false;
+        this.modal.close();
+        // this.navigateToWebPage(`Case/${caso.Id}`);
+        this.navigateToWebPage(sObj.Id);
+      })
+      .catch(err => {
+        console.log("err >>>", JSON.parse(JSON.stringify(err)));
+      });
   }
 
 

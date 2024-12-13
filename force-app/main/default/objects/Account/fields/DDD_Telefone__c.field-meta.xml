@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>DDD_Telefone__c</fullName>
+    <description>Telefone celular do cliente</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Este campo tem um limite de 11 números.</inlineHelpText>
+    <label>DDD + Telefone</label>
+    <length>11</length>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

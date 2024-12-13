@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Conta</fullName>
+    <fullName>Pessoa_Fisica</fullName>
     <active>true</active>
-    <label>Conta</label>
+    <description>Conta de segurados pessoa física, todo cliente com CPF</description>
+    <label>Pessoa Física</label>
     <picklistValues>
         <picklist>AccountSource</picklist>
         <values>

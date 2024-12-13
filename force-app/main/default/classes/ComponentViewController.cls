@@ -116,6 +116,140 @@ public with sharing class ComponentViewController {
         return [SELECT Id, Name, DeveloperName, Description FROM RecordType WHERE Id IN :idsRecordType];
     }
 
+
+    @AuraEnabled
+    public static Map<String, String> createRecord(String objString) {
+        Map<String, String> mapToReturn = new Map<String, String>();
+        ObjWrapper objWrapper = (ObjWrapper) JSON.deserialize(objString, ObjWrapper.class);
+        SObject sObj = setObjValues(objWrapper);
+        mapToReturn.put('SObject', JSON.serialize(sObj));
+        System.debug('objWrapper >>>' + objWrapper);
+        return mapToReturn;
+    }
+
+    public static SObject setObjValues(ObjWrapper objWrapper) {
+        SObject sObj = Schema.getGlobalDescribe().get(objWrapper.objectApiName).newSObject() ;
+        Map<String, ObjFieldWrapper> retrieveObjField = new Map<String, ObjFieldWrapper>();
+        List<ObjFieldWrapper> objFieldList = setObjFieldWrapper(objWrapper);
+
+        for (ObjFieldWrapper objField : objFieldList) {
+            retrieveObjField.put(objField.fieldApi, objField);
+        }
+        System.debug('retrieveObjField >>>' + retrieveObjField);
+
+
+        for (FieldWrapper fieldWrapper : objWrapper.fields) {
+            System.debug('objWrapper.fields >>>' + objWrapper.fields);
+
+            ObjFieldWrapper objField = retrieveObjField.get(fieldWrapper.apiName);
+
+            if (objField != null && fieldWrapper.value != '') {
+                switch on objField.type {
+                    when 'text', 'PICKLIST', 'MULTIPICKLIST' {
+                        sObj.put(objField.fieldCaseApiName, fieldWrapper.value);
+                    }
+                    when 'BOOLEAN', 'checkbox' {
+                        sObj.put(objField.fieldCaseApiName, Boolean.valueOf(fieldWrapper.value));
+                    }
+                    when 'date' {
+                        sObj.put(objField.fieldCaseApiName, Date.valueOf(fieldWrapper.value));
+                    }
+                    when 'datetime' {
+                        String dtString = fieldWrapper.value.substringBefore('T');
+                        sObj.put(objField.fieldCaseApiName, Date.valueOf(dtString));
+                    }
+                    when 'number' {
+                        System.debug('Valor fail >>' + fieldWrapper.value);
+                        if (fieldWrapper.value == '0.0') {
+                            sObj.put(objField.fieldCaseApiName, Double.valueOf('0'));
+                        } else {
+                            sObj.put(objField.fieldCaseApiName, Double.valueOf(fieldWrapper.value));
+                        }
+                    }
+                    when else {
+                        sObj.put(objField.fieldCaseApiName, fieldWrapper.value);
+                    }
+                }
+            }
+        }
+
+        populateFixedValues(sObj, objWrapper);
+
+        if (sObj != null) {
+            insert sObj;
+        }
+        System.debug('sObj: ' + sObj);
+
+        return sObj;
+    }
+
+    public static List<ObjFieldWrapper> setObjFieldWrapper(ObjWrapper objWrapper) {
+        ComponentView__mdt metadata = getComponentMetadata(objWrapper.metadataName);
+        List<String> columnFieldTypeList = new List<String>();
+        List<ObjFieldWrapper> objFieldList = new List<ObjFieldWrapper>();
+
+        if (objWrapper.objectApiName == 'Case') {
+            if (metadata.ApiFieldsTypesAndCaseFields__c != null) {
+                columnFieldTypeList = metadata.ApiFieldsTypesAndCaseFields__c.split(', ');
+            }
+        }
+        if (objWrapper.objectApiName == 'Opportunity') {
+            if (metadata.ApiFieldsTypesAndOppFields__c != null) {
+                columnFieldTypeList = metadata.ApiFieldsTypesAndOppFields__c.split(', ');
+            }
+        }
+
+        for (Integer i = 0; i < columnFieldTypeList.size(); i++) {
+            ObjFieldWrapper ObjFieldWrapper = new ObjFieldWrapper(columnFieldTypeList[i].substringBefore(':').trim(), columnFieldTypeList[i].substringBetween(':').trim(), columnFieldTypeList[i].substringAfterLast(':').trim());
+            objFieldList.add(ObjFieldWrapper);
+        }
+
+        return objFieldList;
+    }
+
+    private static void populateFixedValues(SObject sObj, ObjWrapper objWrapper) {
+        setFieldValueMap(sObj, objWrapper.objectApiName, 'Classificacao_Negocio__c', objWrapper.metadataName);
+        setFieldValueMap(sObj, objWrapper.objectApiName, 'AccountId', objWrapper.recordId);
+
+        if (objWrapper.objectApiName == 'Case') {
+            setCaseFields(sObj, objWrapper);
+        }
+
+        if (objWrapper.objectApiName == 'Opportunity') {
+            setOpportunityFields(sObj, objWrapper);
+        }
+    }
+
+    private static void setFieldValueMap(SObject sObj, String objectApiName, String fieldApi, String value) {
+        String nameField = Schema.getGlobalDescribe().get(objectApiName).getDescribe().fields.getMap().get(fieldApi).getDescribe().getName();
+        sObj.put(nameField, value);
+    }
+
+    private static void setCaseFields(SObject sObj, ObjWrapper objWrapper) {
+
+        setFieldValueMap(sObj, objWrapper.objectApiName, 'RecordTypeId', objWrapper.recordTypeId);
+        setFieldValueMap(sObj, objWrapper.objectApiName, 'Corretor__c', 'Caixa Seguridade Corretagem e Administração de Seguros S.A');
+
+        if (objWrapper.recordTypeId == getRecordTypeId(objWrapper.objectApiName, 'areas_internas')) {
+            setFieldValueMap(sObj, objWrapper.objectApiName, 'Status_Desligamento__c', 'Em analise');
+        }
+
+        if (objWrapper.metadataName == 'Afinidades') {
+            setFieldValueMap(sObj, objWrapper.objectApiName, 'Produto_Susep__c', 'Habitacional');
+        }
+    }
+
+    private static void setOpportunityFields(SObject sObj, ObjWrapper objWrapper) {
+
+        objWrapper.recordTypeId = Schema.SObjectType.Opportunity.getRecordTypeInfosByDeveloperName().get('Oportunidade_Padrao').getRecordTypeId();
+        setFieldValueMap(sObj, objWrapper.objectApiName, 'RecordTypeId', objWrapper.recordTypeId);
+        setFieldValueMap(sObj, objWrapper.objectApiName, 'Name', '.');
+    }
+
+    private static Id getRecordTypeId(String objectApiName, String recordTypeName) {
+        return Schema.getGlobalDescribe().get(objectApiName).getDescribe().getRecordTypeInfosByDeveloperName().get(recordTypeName).getRecordTypeId();
+    }
+
     //Dados recebidos pela funcionalidade geral
     public class DataWrapper {
         @AuraEnabled
@@ -128,6 +262,55 @@ public with sharing class ComponentViewController {
         public String cpfCnpj;
         @AuraEnabled
         public String nomeSegurado;
+    }
+
+    public class ObjWrapper {
+        @AuraEnabled
+        public List<FieldWrapper> fields;
+        @AuraEnabled
+        public String metadataName;
+        @AuraEnabled
+        public String recordTypeId;
+        @AuraEnabled
+        public String recordTypeName;
+        @AuraEnabled
+        public String recordId;
+        @AuraEnabled
+        public String objectApiName;
+
+        public ObjWrapper() {
+            this.fields = new List<FieldWrapper>();
+        }
+    }
+
+    public class FieldWrapper {
+        @AuraEnabled
+        public String label;
+        @AuraEnabled
+        public String apiName;
+        @AuraEnabled
+        public String value;
+        @AuraEnabled
+        public List<FieldWrapper> listValues;
+
+        public FieldWrapper() {
+            this.listValues = new List<FieldWrapper>();
+        }
+    }
+
+    public class ObjFieldWrapper {
+        @AuraEnabled
+        public String fieldApi { get; set; }
+        @AuraEnabled
+        public String type { get; set; }
+        @AuraEnabled
+        public String fieldCaseApiName { get; set; }
+
+        public ObjFieldWrapper(String fieldApi, String type, String fieldCaseApiName) {
+            this.fieldApi = fieldApi;
+            this.type = type;
+            this.fieldCaseApiName = fieldCaseApiName;
+        }
     }
 
     //Colunas do metadado mapeado

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Conta</fullName>
+    <fullName>Economiario</fullName>
     <active>true</active>
-    <label>Conta</label>
+    <description>Contas de economiário, com matricula e agência</description>
+    <label>Economiário</label>
     <picklistValues>
         <picklist>AccountSource</picklist>
         <values>
