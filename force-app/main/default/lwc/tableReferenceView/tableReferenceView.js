@@ -107,8 +107,6 @@ export default class TableReferenceView extends LightningElement {
       let auxTable = [];
       let i = 0;
 
-      //TODO Mudar para um swtich case e métodos separados
-
       switch (this.metadataName) {
         case "Massificados":
           console.log("É massificados");
@@ -238,6 +236,7 @@ export default class TableReferenceView extends LightningElement {
 
   //handleChange(event) {
   modalHandleChange(event) {
+    console.log("click modalHandleChange" + event);
     this.radioValue = event.detail.value;
     this.radioLabel = this.options.find(item => item.value.includes(this.radioValue)).label;
   }
@@ -265,6 +264,7 @@ export default class TableReferenceView extends LightningElement {
   }
 
   setRecordTypes(recordTypes) {
+    console.log("setRecordTypes:" + recordTypes);
     this.options = recordTypes.map(item => ({
       label: item?.Name,
       value: item?.Id,
@@ -291,6 +291,9 @@ export default class TableReferenceView extends LightningElement {
   }
 
   createRecord(row, recordTypeIdSelected, recordTypeNameSelected) {
+    console.log("row:" + row);
+    console.log("recordTypeIdSelected:" + recordTypeIdSelected);
+    console.log("recordTypeNameSelected:" + recordTypeNameSelected);
     this.isLoading = true;
     let objFields = [];
     for (let key in row) {

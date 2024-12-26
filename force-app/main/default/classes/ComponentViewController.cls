@@ -39,8 +39,8 @@ public with sharing class ComponentViewController {
         if (componentList.DeveloperName == 'Afinidades') {
             System.debug('getDataFromAPI - componentList.DeveloperName >>>' + componentList.DeveloperName);
             //TODO Incluir essa linha a de baixo é para testes
-            AffinitySinDTO.AffinitySinResponse affinity = AffinityService.searchPolicieByDocumentName('01185631143', 'Mayara');
-            //AffinitySinDTO.AffinitySinResponse affinity = AffinityService.searchPolicieByDocumentName(String.valueOf(sObj.get('CPF_CNPJ__c')), String.valueOf(sObj.get('Name')));
+            //AffinitySinDTO.AffinitySinResponse affinity = AffinityService.searchPolicieByDocumentName('01185631143', 'Mayara');
+            AffinitySinDTO.AffinitySinResponse affinity = AffinityService.searchPolicieByDocumentName(String.valueOf(sObj.get('CPF_CNPJ__c')), String.valueOf(sObj.get('Name')));
             System.debug('getDataFromAPI - affinity >>>' + affinity);
             mapToReturn.put('Affinity', JSON.serialize(affinity));
         }
@@ -221,6 +221,7 @@ public with sharing class ComponentViewController {
     }
 
     private static void setFieldValueMap(SObject sObj, String objectApiName, String fieldApi, String value) {
+        System.debug(fieldApi);
         String nameField = Schema.getGlobalDescribe().get(objectApiName).getDescribe().fields.getMap().get(fieldApi).getDescribe().getName();
         sObj.put(nameField, value);
     }
