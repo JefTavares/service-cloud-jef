@@ -28,8 +28,16 @@ public class AccountTriggerHandler implements TriggerHandler {
     public void afterUndelete(List<SObject> newRecords, Map<Id, SObject> newRecordMap) {
     }
 
-    // Implementação do afterUpdate - Account é um SObject a assinatura do método checkDuplicatedAccount Recebe uma lista de Account
-    public void afterUpdate(List<SObject> oldRecords, List<Account> newRecords, Map<Id, SObject> oldRecordMap, Map<Id, SObject> newRecordMap) {
+    /**
+     * Implementação do afterUpdate - Account é um SObject por isso assinatura do método funciona com `List<SObject>`
+     * checkDuplicatedAccount Recebe uma lista de Account
+     * @param oldRecords registros antigos
+     * @param newRecords novos registros
+     * @param oldRecordMap  maps de registro antigos
+     * @param newRecordMap maps de registros novos
+     */
+    public void afterUpdate(List<SObject> oldRecords, List<Account> newRecords,
+            Map<Id, SObject> oldRecordMap, Map<Id, SObject> newRecordMap) {
         helper.checkDuplicatedAccount(newRecords);
     }
 
@@ -39,6 +47,7 @@ public class AccountTriggerHandler implements TriggerHandler {
     public void beforeInsert(List<SObject> newRecords) {
     }
 
-    public void beforeUpdate(List<SObject> oldRecords, List<SObject> newRecords, Map<Id, SObject> oldRecordMap, Map<Id, SObject> newRecordMap) {
+    public void beforeUpdate(List<SObject> oldRecords, List<SObject> newRecords, Map<Id, SObject> oldRecordMap,
+            Map<Id, SObject> newRecordMap) {
     }
 }
